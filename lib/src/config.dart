@@ -94,7 +94,7 @@ class KeyboardScrollConfig {
   /// Default duration for home and end scrolling
   final Duration defaultHomeEndScrollDuration;
 
-  /// Which scrolling curve to use
+  /// Scroll curve
   final Curve scrollCurve;
 }
 
@@ -102,11 +102,19 @@ class KeyboardScrollConfig {
 class CustomMouseWheelScrollConfig {
   /// Default values
   const CustomMouseWheelScrollConfig({
-    this.scrollAmountMultiplier = 0.0,
+    this.scrollAmountMultiplier = 3.0,
+    this.scrollDuration = const Duration(milliseconds: 100),
+    this.scrollCurve = Curves.easeOutCubic,
   });
 
   /// Extra amount to scroll when scrolling using mouse wheel
   ///
   /// Can be negative
   final double scrollAmountMultiplier;
+
+  /// Scroll duration
+  final Duration scrollDuration;
+
+  /// Scroll curve
+  final Curve scrollCurve;
 }

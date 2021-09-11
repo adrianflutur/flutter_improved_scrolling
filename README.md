@@ -97,7 +97,7 @@ ImprovedScrolling(
 
 - #### Scrolling using the keyboard (Arrows, Page{Up, Down}, Spacebar, Home, End)
 
-  > You need to set `enableKeyboardScrolling: true` and then you can configure the scrolling amount, delay and curve by using `keyboardScrollConfig: KeyboardScrollConfig(...)`
+  > You need to set `enableKeyboardScrolling: true` and then you can configure the scrolling amount, duration and curve by using `keyboardScrollConfig: KeyboardScrollConfig(...)`
 
 - #### Scrolling using the middle mouse button ("auto-scrolling")
 
@@ -108,7 +108,7 @@ ImprovedScrolling(
 
 - #### Programatically scroll using the mouse wheel
 
-  > You need to set `enableCustomMouseWheelScrolling: true` and then you can configure the scrolling speed by using `customMouseWheelScrollConfig: CustomMouseWheelScrollConfig(...)`
+  > You need to set `enableCustomMouseWheelScrolling: true` and then you can configure the scrolling speed, duration and curve by using `customMouseWheelScrollConfig: CustomMouseWheelScrollConfig(...)`
 
 - #### Horizontal scrolling using Left/Right arrows or Shift + mouse wheel
 
