@@ -13,9 +13,7 @@
 ## _**Getting started**_
 
 - [Example](#example)
-
 - [Usage and features](#usage-and-features)
-
 - [License](#license)
 
 <br>
