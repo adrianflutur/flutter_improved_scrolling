@@ -108,7 +108,7 @@ ImprovedScrolling(
   >
   > There is also a `DefaultCustomScrollCursor` class which is a default custom cursor implementation
 
-- #### Programtically scroll using the mouse wheel
+- #### Programatically scroll using the mouse wheel
 
   > You need to set `enableCustomMouseWheelScrolling: true` and then you can configure the scrolling speed by using `customMouseWheelScrollConfig: CustomMouseWheelScrollConfig(...)`
 
