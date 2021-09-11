@@ -110,6 +110,10 @@ ImprovedScrolling(
 
   > You need to set `enableCustomMouseWheelScrolling: true` and then you can configure the scrolling speed by using `customMouseWheelScrollConfig: CustomMouseWheelScrollConfig(...)`
 
+- #### Horizontal scrolling using Left/Right arrows or Shift + mouse wheel
+
+  > Requires `enableKeyboardScrolling: true` and `enableCustomMouseWheelScrolling: true` to be set.
+
 <br>
 
 ### Callbacks:
