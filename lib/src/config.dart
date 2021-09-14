@@ -1,4 +1,5 @@
 import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 
 import 'custom_scroll_cursor.dart';
 
@@ -47,12 +48,12 @@ class MMBScrollConfig {
 class KeyboardScrollConfig {
   /// Default values
   const KeyboardScrollConfig({
-    this.arrowsScrollAmount = 100.0,
-    this.arrowsScrollDuration = const Duration(milliseconds: 100),
+    this.arrowsScrollAmount = 200.0,
+    this.arrowsScrollDuration = const Duration(milliseconds: 200),
     this.pageUpDownScrollAmount = 500.0,
-    this.pageUpDownScrollDuration = const Duration(milliseconds: 100),
+    this.pageUpDownScrollDuration = const Duration(milliseconds: 200),
     this.spaceScrollAmount = 600.0,
-    this.spaceScrollDuration = const Duration(milliseconds: 100),
+    this.spaceScrollDuration = const Duration(milliseconds: 200),
     this.defaultHomeEndScrollDuration = const Duration(milliseconds: 500),
     this.homeScrollDurationBuilder,
     this.endScrollDurationBuilder,
@@ -103,8 +104,9 @@ class CustomMouseWheelScrollConfig {
   /// Default values
   const CustomMouseWheelScrollConfig({
     this.scrollAmountMultiplier = 3.0,
-    this.scrollDuration = const Duration(milliseconds: 100),
-    this.scrollCurve = Curves.easeOutCubic,
+    this.scrollDuration = const Duration(milliseconds: 400),
+    this.scrollCurve = Curves.linearToEaseOut,
+    this.mouseWheelTurnsThrottleTimeMs = 80,
   });
 
   /// Extra amount to scroll when scrolling using mouse wheel
@@ -117,4 +119,7 @@ class CustomMouseWheelScrollConfig {
 
   /// Scroll curve
   final Curve scrollCurve;
+
+  /// Scrolling throttle duration
+  final int mouseWheelTurnsThrottleTimeMs;
 }

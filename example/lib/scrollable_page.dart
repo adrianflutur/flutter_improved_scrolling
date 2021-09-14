@@ -211,7 +211,7 @@ class _ScrollablePageState extends State<ScrollablePage> {
                     style: textStyleSmall,
                   ),
                   Text(
-                    '          - PageUp, PageDown',
+                    '          - PageUp, PageDown, End, Home',
                     style: textStyleSmall,
                   ),
                 ],
@@ -263,8 +263,7 @@ class _ScrollablePageState extends State<ScrollablePage> {
       onMMBScrollStateChanged: (scrolling) => debugPrint(
         'Is scrolling: $scrolling',
       ),
-      onMMBScrollCursorPositionUpdate: (localCursorOffset, scrollActivity) =>
-          debugPrint(
+      onMMBScrollCursorPositionUpdate: (localCursorOffset, scrollActivity) => debugPrint(
         'Cursor position: $localCursorOffset\n'
         'Scroll activity: $scrollActivity',
       ),
@@ -272,11 +271,9 @@ class _ScrollablePageState extends State<ScrollablePage> {
       enableKeyboardScrolling: true,
       enableCustomMouseWheelScrolling: true,
       mmbScrollConfig: MMBScrollConfig(
-        customScrollCursor:
-            useSystemCursor ? null : const DefaultCustomScrollCursor(),
+        customScrollCursor: useSystemCursor ? null : const DefaultCustomScrollCursor(),
       ),
       keyboardScrollConfig: KeyboardScrollConfig(
-        arrowsScrollAmount: 250.0,
         homeScrollDurationBuilder: (currentScrollOffset, minScrollOffset) {
           return const Duration(milliseconds: 100);
         },
@@ -286,6 +283,7 @@ class _ScrollablePageState extends State<ScrollablePage> {
       ),
       customMouseWheelScrollConfig: const CustomMouseWheelScrollConfig(
         scrollAmountMultiplier: 4.0,
+        scrollDuration: Duration(milliseconds: 350),
       ),
       child: ScrollConfiguration(
         behavior: const CustomScrollBehaviour(),
