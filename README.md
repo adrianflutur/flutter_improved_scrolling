@@ -108,7 +108,7 @@ ImprovedScrolling(
 
 - #### Programatically scroll using the mouse wheel
 
-  > You need to set `enableCustomMouseWheelScrolling: true` and then you can configure the scrolling speed, duration and curve by using `customMouseWheelScrollConfig: CustomMouseWheelScrollConfig(...)`
+  > You need to set `enableCustomMouseWheelScrolling: true` and then you can configure the scrolling speed, duration, curve and throttling time by using `customMouseWheelScrollConfig: CustomMouseWheelScrollConfig(...)`
 
 - #### Horizontal scrolling using Left/Right arrows or Shift + mouse wheel
 

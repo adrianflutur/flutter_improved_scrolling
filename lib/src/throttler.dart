@@ -12,7 +12,8 @@ class Throttler {
       action();
       _lastRunTimeMs = DateTime.now().millisecondsSinceEpoch;
     } else {
-      if (DateTime.now().millisecondsSinceEpoch - _lastRunTimeMs! > _throttleTimeMs) {
+      if (DateTime.now().millisecondsSinceEpoch - _lastRunTimeMs! >
+          _throttleTimeMs) {
         action();
         _lastRunTimeMs = DateTime.now().millisecondsSinceEpoch;
       }

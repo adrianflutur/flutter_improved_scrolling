@@ -263,7 +263,8 @@ class _ScrollablePageState extends State<ScrollablePage> {
       onMMBScrollStateChanged: (scrolling) => debugPrint(
         'Is scrolling: $scrolling',
       ),
-      onMMBScrollCursorPositionUpdate: (localCursorOffset, scrollActivity) => debugPrint(
+      onMMBScrollCursorPositionUpdate: (localCursorOffset, scrollActivity) =>
+          debugPrint(
         'Cursor position: $localCursorOffset\n'
         'Scroll activity: $scrollActivity',
       ),
@@ -271,7 +272,8 @@ class _ScrollablePageState extends State<ScrollablePage> {
       enableKeyboardScrolling: true,
       enableCustomMouseWheelScrolling: true,
       mmbScrollConfig: MMBScrollConfig(
-        customScrollCursor: useSystemCursor ? null : const DefaultCustomScrollCursor(),
+        customScrollCursor:
+            useSystemCursor ? null : const DefaultCustomScrollCursor(),
       ),
       keyboardScrollConfig: KeyboardScrollConfig(
         homeScrollDurationBuilder: (currentScrollOffset, minScrollOffset) {

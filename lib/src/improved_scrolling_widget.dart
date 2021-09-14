@@ -256,7 +256,8 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
       return;
     }
 
-    _mmbScrollingTimer = Timer.periodic(widget.mmbScrollConfig.autoScrollDelay, (timer) {
+    _mmbScrollingTimer =
+        Timer.periodic(widget.mmbScrollConfig.autoScrollDelay, (timer) {
       // Everything here is computed after this
       // callback is scheduled (in the future)
 
@@ -270,9 +271,11 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
           : _mmbScrollCurrentCursorPosition.dx;
 
       final cursorIsWhereTheScrollStartedArea = currentCursorPosByAxis >
-              lastStartCursorPosByAxis - widget.mmbScrollConfig.idleCursorAreaSize / 2 &&
+              lastStartCursorPosByAxis -
+                  widget.mmbScrollConfig.idleCursorAreaSize / 2 &&
           currentCursorPosByAxis <
-              lastStartCursorPosByAxis + widget.mmbScrollConfig.idleCursorAreaSize / 2;
+              lastStartCursorPosByAxis +
+                  widget.mmbScrollConfig.idleCursorAreaSize / 2;
 
       if (cursorIsWhereTheScrollStartedArea) {
         //
@@ -394,7 +397,8 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
           final scrollDelta = event.scrollDelta.dy;
 
           final newOffset = scrollController.offset +
-              scrollDelta * widget.customMouseWheelScrollConfig.scrollAmountMultiplier;
+              scrollDelta *
+                  widget.customMouseWheelScrollConfig.scrollAmountMultiplier;
 
           final duration = widget.customMouseWheelScrollConfig.scrollDuration;
           final curve = widget.customMouseWheelScrollConfig.scrollCurve;
@@ -450,12 +454,15 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
 
     if (widget.enableKeyboardScrolling) {
       final arrowsScrollAmount = widget.keyboardScrollConfig.arrowsScrollAmount;
-      final arrowsScrollDuration = widget.keyboardScrollConfig.arrowsScrollDuration;
-      final pageUpDownScrollAmount = widget.keyboardScrollConfig.pageUpDownScrollAmount;
+      final arrowsScrollDuration =
+          widget.keyboardScrollConfig.arrowsScrollDuration;
+      final pageUpDownScrollAmount =
+          widget.keyboardScrollConfig.pageUpDownScrollAmount;
       final pageUpDownScrollDuration =
           widget.keyboardScrollConfig.pageUpDownScrollDuration;
       final spaceScrollAmount = widget.keyboardScrollConfig.spaceScrollAmount;
-      final spaceScrollDuration = widget.keyboardScrollConfig.spaceScrollDuration;
+      final spaceScrollDuration =
+          widget.keyboardScrollConfig.spaceScrollDuration;
       final homeScrollDurationBuilder =
           widget.keyboardScrollConfig.homeScrollDurationBuilder;
       final endScrollDurationBuilder =
