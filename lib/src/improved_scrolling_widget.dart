@@ -120,7 +120,8 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
   final _keyboardScrollFocusNode = FocusNode();
   var _isShiftPressedDown = false;
 
-  late final Throttler mouseWheelThrottler;
+  late final Throttler mouseWheelForwardThrottler;
+  late final Throttler mouseWheelBackwardThrottler;
 
   bool get isMMBScrollTimerActive =>
       _mmbScrollingTimer != null && _mmbScrollingTimer!.isActive;
@@ -156,7 +157,10 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
   @override
   void initState() {
     super.initState();
-    mouseWheelThrottler = Throttler(
+    mouseWheelForwardThrottler = Throttler(
+      widget.customMouseWheelScrollConfig.mouseWheelTurnsThrottleTimeMs,
+    );
+    mouseWheelBackwardThrottler = Throttler(
       widget.customMouseWheelScrollConfig.mouseWheelTurnsThrottleTimeMs,
     );
     scrollController.addListener(scrollControllerListener);
@@ -403,21 +407,23 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
           final duration = widget.customMouseWheelScrollConfig.scrollDuration;
           final curve = widget.customMouseWheelScrollConfig.scrollCurve;
 
-          mouseWheelThrottler.run(() {
-            if (scrollDelta.isNegative) {
+          if (scrollDelta.isNegative) {
+            mouseWheelForwardThrottler.run(() {
               scrollController.animateTo(
                 math.max(0.0, newOffset),
                 duration: duration,
                 curve: curve,
               );
-            } else {
+            });
+          } else {
+            mouseWheelBackwardThrottler.run(() {
               scrollController.animateTo(
                 math.min(scrollController.position.maxScrollExtent, newOffset),
                 duration: duration,
                 curve: curve,
               );
-            }
-          });
+            });
+          }
         }
       },
       child: Stack(
