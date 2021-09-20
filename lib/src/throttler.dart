@@ -1,6 +1,6 @@
 /// Throttle some action by a specified amount of milliseconds
 class Throttler {
-  /// Default throttle value
+  /// Throttle value
   Throttler(this._throttleTimeMs);
 
   final int _throttleTimeMs;
