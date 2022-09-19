@@ -119,6 +119,7 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
 
   final _keyboardScrollFocusNode = FocusNode();
   var _isShiftPressedDown = false;
+  double _lastScrollDestPos = 0.0;
 
   late final Throttler mouseWheelForwardThrottler;
   late final Throttler mouseWheelBackwardThrottler;
@@ -164,6 +165,7 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
       widget.customMouseWheelScrollConfig.mouseWheelTurnsThrottleTimeMs,
     );
     scrollController.addListener(scrollControllerListener);
+    _lastScrollDestPos = scrollController.initialScrollOffset;
   }
 
   void scrollControllerListener() {
@@ -381,6 +383,8 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
             _mmbScrollCurrentCursorPosition,
             _mmbScrollCursorActivity,
           );
+        } else {
+          _lastScrollDestPos = scrollController.offset;
         }
       },
       onPointerPanZoomUpdate: (event) {
@@ -423,7 +427,12 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
           // which means they are somehow inverted)
           final scrollDelta = event.scrollDelta.dy;
 
-          final newOffset = scrollController.offset +
+          final newOffset = math.max(
+                  0,
+                  math.min(
+                    scrollController.position.maxScrollExtent,
+                    _lastScrollDestPos,
+                  )) +
               scrollDelta *
                   widget.customMouseWheelScrollConfig.scrollAmountMultiplier;
           startTransformedScroll(
@@ -588,16 +597,18 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
   }
 
   void startTransformedScroll(
-      double newOffset, bool isNegative, Curve curve, Duration duration) {
+    double newOffset,
+    bool isNegative,
+    Curve curve,
+    Duration duration,
+  ) {
     if (isNegative) {
       mouseWheelForwardThrottler.run(() {
-        duration.inMilliseconds >= 1
-            ? scrollController.animateTo(
-                math.max(0.0, newOffset),
-                duration: duration,
-                curve: curve,
-              )
-            : scrollController.jumpTo(math.max(0.0, newOffset));
+        scrollAnimateTo(
+          math.max(0.0, newOffset),
+          duration: duration,
+          curve: curve,
+        );
       });
     } else {
       mouseWheelBackwardThrottler.run(() {
@@ -610,16 +621,34 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
     }
   }
 
-  void scrollAnimateTo(double newOffset,
-      {required Duration duration, required Curve curve}) {
+  void scrollAnimateTo(
+    double newOffset, {
+    required Duration duration,
+    required Curve curve,
+  }) {
+    // prevent window change, update when start scroll
+    _lastScrollDestPos = math.max(
+        0,
+        math.min(
+          scrollController.position.maxScrollExtent,
+          _lastScrollDestPos,
+        ));
+    scrollController.jumpTo(_lastScrollDestPos);
     scrollController.animateTo(
       math.min(scrollController.position.maxScrollExtent, newOffset),
       duration: duration,
       curve: curve,
     );
+    _lastScrollDestPos = newOffset;
   }
 
   void scrollJumpTo(double newOffset) {
-    scrollController.jumpTo(newOffset);
+    _lastScrollDestPos = math.max(
+        0,
+        math.min(
+          scrollController.position.maxScrollExtent,
+          newOffset,
+        ));
+    scrollController.jumpTo(_lastScrollDestPos);
   }
 }
