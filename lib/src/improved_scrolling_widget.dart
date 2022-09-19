@@ -383,6 +383,27 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
           );
         }
       },
+      onPointerPanZoomUpdate: (event) {
+        if (widget.enableCustomMouseWheelScrolling &&
+            event.kind == PointerDeviceKind.trackpad) {
+          if (!isVerticalAxis && !_isShiftPressedDown) {
+            return;
+          }
+          final delta = Offset(event.panDelta.dx, -event.panDelta.dy);
+          final scrollDelta = delta.dy;
+
+          final newOffset = scrollController.offset +
+              scrollDelta *
+                  widget.customMouseWheelScrollConfig.scrollAmountMultiplier;
+
+          if (scrollDelta.isNegative) {
+            scrollJumpTo(math.max(0.0, newOffset));
+          } else {
+            scrollJumpTo(
+                math.min(scrollController.position.maxScrollExtent, newOffset));
+          }
+        }
+      },
       onPointerSignal: (event) {
         if (widget.enableCustomMouseWheelScrolling &&
             event is PointerScrollEvent &&
@@ -391,6 +412,8 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
             return;
           }
 
+          final duration = widget.customMouseWheelScrollConfig.scrollDuration;
+          final curve = widget.customMouseWheelScrollConfig.scrollCurve;
           // Work-around for a Flutter issue regarding horizontal scrolling
           //
           // Basically `event.scrollDelta.dx` should return +-33.3333
@@ -403,27 +426,8 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
           final newOffset = scrollController.offset +
               scrollDelta *
                   widget.customMouseWheelScrollConfig.scrollAmountMultiplier;
-
-          final duration = widget.customMouseWheelScrollConfig.scrollDuration;
-          final curve = widget.customMouseWheelScrollConfig.scrollCurve;
-
-          if (scrollDelta.isNegative) {
-            mouseWheelForwardThrottler.run(() {
-              scrollController.animateTo(
-                math.max(0.0, newOffset),
-                duration: duration,
-                curve: curve,
-              );
-            });
-          } else {
-            mouseWheelBackwardThrottler.run(() {
-              scrollController.animateTo(
-                math.min(scrollController.position.maxScrollExtent, newOffset),
-                duration: duration,
-                curve: curve,
-              );
-            });
-          }
+          startTransformedScroll(
+              newOffset, scrollDelta.isNegative, curve, duration);
         }
       },
       child: Stack(
@@ -581,5 +585,41 @@ class _ImprovedScrollingState extends State<ImprovedScrolling> {
       case MMBScrollCursorActivity.scrollingRight:
         return cursor.scrollingRight;
     }
+  }
+
+  void startTransformedScroll(
+      double newOffset, bool isNegative, Curve curve, Duration duration) {
+    if (isNegative) {
+      mouseWheelForwardThrottler.run(() {
+        duration.inMilliseconds >= 1
+            ? scrollController.animateTo(
+                math.max(0.0, newOffset),
+                duration: duration,
+                curve: curve,
+              )
+            : scrollController.jumpTo(math.max(0.0, newOffset));
+      });
+    } else {
+      mouseWheelBackwardThrottler.run(() {
+        scrollAnimateTo(
+          math.min(scrollController.position.maxScrollExtent, newOffset),
+          duration: duration,
+          curve: curve,
+        );
+      });
+    }
+  }
+
+  void scrollAnimateTo(double newOffset,
+      {required Duration duration, required Curve curve}) {
+    scrollController.animateTo(
+      math.min(scrollController.position.maxScrollExtent, newOffset),
+      duration: duration,
+      curve: curve,
+    );
+  }
+
+  void scrollJumpTo(double newOffset) {
+    scrollController.jumpTo(newOffset);
   }
 }
