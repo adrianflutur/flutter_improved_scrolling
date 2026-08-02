@@ -71,7 +71,6 @@ ImprovedScrolling(
         behavior: const CustomScrollBehaviour(),
         child: GridView(
           controller: controller,
-          physics: const NeverScrollableScrollPhysics(),
           scrollDirection: axis,
           padding: const EdgeInsets.all(24.0),
           gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -91,7 +90,7 @@ ImprovedScrolling(
 - The `ImprovedScrolling` Widget must be added as a parent of your scrollable Widget (`List/Grid/SingleChildScrollView/etc`).
 - You must create and provide the same scroll controller to both the `ImprovedScrolling` Widget and your scrollable Widget.
 
-* _Optional_: If you want to programatically scroll when rotating the mouse wheel and not let the framework manage the scrolling, you can set `physics: NeverScrollableScrollPhysics()` to your scrollable and then set `enableCustomMouseWheelScrolling: true` on `ImprovedScrolling` to enable this feature.
+* _Optional_: You can set `enableCustomMouseWheelScrolling: true` on `ImprovedScrolling` to programmatically scroll using the mouse wheel. Note: setting `physics: NeverScrollableScrollPhysics()` on your scrollable will disable drag scrolling for the scrollbar.
 
 <br>
 
